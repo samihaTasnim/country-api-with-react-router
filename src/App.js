@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Countries from './Components/Countries';
+import IndivisualCountry from './Components/IndivisualCountry';
 
 function App() {
+  const [countries, setCountries] = useState([])
+  
+  useEffect(() => {
+    fetch('https://restcountries.eu/rest/v2/all')
+    .then(res => res.json())
+    .then(data => setCountries(data))
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <h2>Hello</h2>
+      <Switch>
+        <Route exact path="/">
+          {countries.map(x => <Countries country={x}></Countries>)}
+        </Route>
+        <Route path="/country/:countryName">
+          <IndivisualCountry></IndivisualCountry>
+        </Route>
+        <Route path="*">
+          <h2>Page not found! 404 error</h2>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
