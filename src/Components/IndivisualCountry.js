@@ -9,7 +9,7 @@ const IndivisualCountry = () => {
     fetch(`https://restcountries.eu/rest/v2/name/${countryName}`)
     .then(res => res.json())
     .then(data => setCountryName(data))
-  }, [])
+  }, [countryName])
   
   return (
     <div>
